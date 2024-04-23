@@ -1,20 +1,15 @@
+import cors from 'cors'
 import express from 'express'
-import { prisma } from './services/prisma'
+
+import { routes } from './routes'
 
 const app = express()
 const port = 3000 || process.env.PORT
 
-app.get('/', async (req, res) => {
-  const x = await prisma.markdown.create({
-    data: {
-      name: 'test',
-      path: 'test',
-    }
-  })
+app.use(express.json())
+app.use(cors())
 
-  console.log(x)
-})
-
+app.use("/api/v1", routes)
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)
